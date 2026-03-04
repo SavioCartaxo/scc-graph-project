@@ -72,14 +72,16 @@ public class Kosaraju {
 			if (!visitados2.contains(node.getValue())) {
 				ArrayList<Integer> scc = new ArrayList<>();
 				dfs2(node, grafoInvertido, visitados2, scc);
-				Collections.sort(scc);
+				// Collections.sort(scc);
 				SCCs.add(scc);
 			}
 		}
-
+		/*
 		// Ordena os SCCs pelo menor elemento de cada componente
 		Collections.sort(SCCs, (a, b) -> a.get(0) - b.get(0));
+		*/
 		return SCCs;
+		
 	}
 
 	/**
