@@ -23,18 +23,18 @@ Agora imagine que as vias possuem sentido único, ou seja, há apenas uma direç
 
 
 ![Directed Graph Diagram](README_IMAGES/directed_graph.jpg)
-Figura 1.1
+Figura 1.2
 
 ## Depth First Search
  
-Se é preciso encontrar uma informação específica, há de se ter uma forma  de procurá-la sistematicamente no grafo, o que muitas vezes envolve olhar todos os seus vértices até que isso seja possível. Nesse sentido, há dois métodos bem conhecidos, **depth first search** e **breadth first search**, ambos percorrem por todos os vértices, mas em ordens diferentes. Como nesse trabalho tratamos de algoritmos baseados no depth first search (também chamado de DFS), apenas trataremos dele.
+Se é preciso encontrar uma informação específica, há de se ter uma forma  de procurá-la sistematicamente no grafo, o que muitas vezes envolve olhar todos os seus vértices até que isso seja possível. Nesse sentido, há dois algoritmos bem conhecidos, **depth first search** e **breadth first search**, ambos percorrem por todos os vértices, mas em ordens diferentes. Como nesse trabalho tratamos de algoritmos baseados no depth first search (também chamado de DFS), apenas trataremos dele.
 
-No *depth first search*, procuramos o mais fundo possível no grafo. Esse algoritmo explora um caminho e segue por ele até que não seja possível mais avançar, e então retorna para o  vértice de início e explora outro caminho inexplorado existente, similar a explorar um labirinto sempre por um único caminho de corredores até o fim e após isso retornar ao ponto de início para fazer o mesmo por outro caminho, caso esse exista.
+No *depth first search*, procuramos o mais fundo possível no grafo. Esse algoritmo explora um caminho e segue por ele até que não seja possível mais avançar, e então retorna para o  vértice de início e explora outro caminho ainda inexplorado, similar a explorar um labirinto sempre por um único caminho de corredores até o fim e após isso retornar ao ponto de início para fazer o mesmo por outro caminho, caso esse exista.
  
 ![Directed Graph Diagram](README_IMAGES/directed_graph2.jpg)
-2.0
+Figura 2.0
 
-Na figura 2.0, que trata-se de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algorito tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse caminho.
+Na figura 2.0, que se trata de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algorito tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse.
 
 <hr>
 
