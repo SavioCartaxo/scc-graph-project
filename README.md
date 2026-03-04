@@ -4,7 +4,7 @@
 
 ## O que é um grafo?
 
-Considere a figura a seguir, a qual representa um mapa entre vias:
+Considere a figura a seguir, a qual representa um mapa de vias de trânsito:
 
 ![Roads Representation](README_IMAGES/roads.jpg)
 Figura 1.0
@@ -19,13 +19,22 @@ Figura 1.1
 
 O grafo na figura 1.1 pode, além de um mapa de estradas, representar diversas coisas: uma rede elétrica, moléculas ou redes neurais, essencialmente, portanto, um  grafo é uma representação de um conjunto de pontos e as ligações entre eles. Na computação são extremamente uteis para lidar com problemas relacionados a rede de computadores com conexões via WI-FI ou cabo entre roteadores, rede sociais e a conexão de usuários que seguem um ao outro, ou até a internet com páginas da web conectadas através de um link.
 
-Agora imagine que as vias possuem sentido único, ou seja, há apenas uma direção a se seguir de um cruzamento há outro; então agora temos um novo grafo de um tipo especial chamado grafo direcionado: há apenas um sentido entre dois vértices.
+Agora imagine que as vias possuem sentido único, ou seja, há apenas uma direção a se seguir de um cruzamento há outro; isto nada mais é que  um novo grafo de um tipo especial chamado grafo direcionado: há apenas um sentido entre dois vértices.
 
 
-![Directed Graph Diagram](README_IMAGES/directed_graph.png)
+![Directed Graph Diagram](README_IMAGES/directed_graph.jpg)
+Figura 1.1
+
+## Depth First Search
  
+Se é preciso encontrar uma informação específica, há de se ter uma forma  de procurá-la sistematicamente no grafo, o que muitas vezes envolve olhar todos os seus vértices até que isso seja possível. Nesse sentido, há dois métodos bem conhecidos, **depth first search** e **breadth first search**, ambos percorrem por todos os vértices, mas em ordens diferentes. Como nesse trabalho tratamos de algoritmos baseados no depth first search (também chamado de DFS), apenas trataremos dele.
 
+No *depth first search*, procuramos o mais fundo possível no grafo. Esse algoritmo explora um caminho e segue por ele até que não seja possível mais avançar, e então retorna para o  vértice de início e explora outro caminho inexplorado existente, similar a explorar um labirinto sempre por um único caminho de corredores até o fim e após isso retornar ao ponto de início para fazer o mesmo por outro caminho, caso esse exista.
+ 
+![Directed Graph Diagram](README_IMAGES/directed_graph2.jpg)
+2.0
 
+Na figura 2.0, que trata-se de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algorito tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse caminho.
 
 <hr>
 
