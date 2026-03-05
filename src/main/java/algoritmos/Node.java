@@ -10,28 +10,39 @@ import java.util.ArrayList;
  */
 public class Node {
 
-    private final int value;
+    private final int index;
+    private final int originalValue;
     private final ArrayList<Node> connections;
 
     /**
      * Cria um novo nó com o valor especificado.
      *
-     * @param value identificador do nó
+     * @param index index normalizado, 0.. n-1
+     * @param value valor original da entrada
      */
-    public Node(int value) {
-        this.value = value;
+    public Node(int index, int originalValue) {
+        this.index = index;
+        this.value = originalValue;
         this.connections = new ArrayList<>();
     }
 
     /**
-     * Retorna o valor identificador do nó.
+     * Retorna o índice normalizado do nó.
      *
-     * @return valor do nó
+     * @return index do nó
      */
     public int getValue() {
-        return this.value;
+        return this.index;
     }
 
+    /**
+     * Retorna o valor original do nó.
+     *
+     * @return valor original do nó
+     */
+    public int getOriginalValue() {
+        return this.originalValue;
+    }
     /**
      * Retorna a lista de nós adjacentes (conexões direcionadas).
      * 
@@ -62,7 +73,7 @@ public class Node {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(value).append(" -> ");
+        sb.append(originalValue).append(" -> ");
 
         for (Node node : connections) {
             sb.append(node.getValue()).append(" ");
