@@ -1,14 +1,11 @@
 package main.java.algoritmos;
 
-// import java.util.Collections;
 import java.util.Deque;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  * Implementação do algoritmo de Kosaraju para encontrar
@@ -40,46 +37,42 @@ public class Kosaraju {
 	public ArrayList<ArrayList<Integer>> findSCCs(List<Node> grafo) {
 
 		Deque<Node> pilha = new ArrayDeque<>();
-		Set<Integer> visitados = new HashSet<>();
+		boolean[] visitados = new boolean[grafo.size()];
 
 		// Parte 1: DFS no grafo original
 		for (Node no : grafo) {
-			if (!visitados.contains(no.getValue())) {
+			if (!visitados[no.getIdNormalizado()]) {
 				dfs1(no, pilha, visitados);
 			}
 		}
 
 		// Parte 2: Construção do grafo transposto
-		Map<Integer, ArrayList<Node>> grafoInvertido = new HashMap<>();
+		ArrayList<ArrayList<Node>> grafoInvertido = new ArrayList<>(grafo.size());
 
-		for (Node node : grafo) {
-			grafoInvertido.put(node.getValue(), new ArrayList<>());	
+		for (int i = 0; i < grafo.size(); i++) {
+			grafoInvertido.add(new ArrayList<>());
 		}
-
+		
 		for (Node node : grafo) {
 			for (Node vizinho : node.getConnections()) {
-				grafoInvertido.get(vizinho.getValue()).add(node);
+				grafoInvertido.get(vizinho.getIdNormalizado()).add(node);
 			}
 		}
 
 		// Parte 3: DFS no grafo transposto
-		Set<Integer> visitados2 = new HashSet<>();
+		boolean[] visitados2 = new boolean[grafo.size()];
 		ArrayList<ArrayList<Integer>> SCCs = new ArrayList<>();
 
 		while (!pilha.isEmpty()) {
 			Node node = pilha.removeLast();
 
-			if (!visitados2.contains(node.getValue())) {
+			if (!visitados2[node.getIdNormalizado()]) {
 				ArrayList<Integer> scc = new ArrayList<>();
 				dfs2(node, grafoInvertido, visitados2, scc);
-				// Collections.sort(scc);
 				SCCs.add(scc);
 			}
 		}
-		/*
-		// Ordena os SCCs pelo menor elemento de cada componente
-		Collections.sort(SCCs, (a, b) -> a.get(0) - b.get(0));
-		*/
+
 		return SCCs;
 		
 	}
@@ -88,29 +81,50 @@ public class Kosaraju {
      * DFS do grafo original para preencher a pilha
      * de acordo com o tempo de término.
      */
-	private void dfs1(Node node, Deque<Node> pilha, Set<Integer> visitados) {
-		visitados.add(node.getValue());
+	private void dfs1(Node node, Deque<Node> pilha, boolean[] visitados) {
+		Deque<Node> stack = new ArrayDeque<>();
+		Deque<Node> ordem = new ArrayDeque<>();
+		stack.addLast(node);
 
-		for (Node vizinho : node.getConnections()) {
-			if (!visitados.contains(vizinho.getValue())) {
-				dfs1(vizinho, pilha, visitados);
+		while (!stack.isEmpty()) {
+			Node atual = stack.removeLast();
+			if (!visitados[atual.getIdNormalizado()]) {
+				visitados[atual.getIdNormalizado()] = true;
+				ordem.addLast(atual);
+
+				for (Node vizinho : atual.getConnections()) {
+					if (!visitados[vizinho.getIdNormalizado()]) {
+						stack.addLast(vizinho);
+					}
+				}
 			}
 		}
-
-		pilha.addLast(node);
+		
+		while (!ordem.isEmpty()) {
+			pilha.addLast(ordem.removeLast());
+		}
 	}
 
 	/**
      * DFS no grafo transposto para visitar todos
      * os nós de uma mesma SCC.
      */
-	private void dfs2(Node node, Map<Integer, ArrayList<Node>> grafoInvertido, Set<Integer> visitados, ArrayList<Integer> scc) {
-		visitados.add(node.getValue());
-		scc.add(node.getValue());
+	private void dfs2(Node node, ArrayList<ArrayList<Node>> grafoInvertido, boolean[] visitados, ArrayList<Integer> scc) {
+		Deque<Node> stack = new ArrayDeque<>();
 
-		for (Node vizinho : grafoInvertido.get(node.getValue())) {
-			if (!visitados.contains(vizinho.getValue())) {
-				dfs2(vizinho, grafoInvertido, visitados, scc);
+		stack.addLast(node);
+
+		while (!stack.isEmpty()) {
+			Node atual = stack.removeLast();
+			if (!visitados[atual.getIdNormalizado()]) {
+				visitados[atual.getIdNormalizado()] = true;
+				scc.add(atual.getValue());
+				
+				for (Node vizinho : grafoInvertido.get(atual.getIdNormalizado())) {
+					if (!visitados[vizinho.getIdNormalizado()]) {
+						stack.addLast(vizinho);
+					}
+				}
 			}
 		}
 	}
