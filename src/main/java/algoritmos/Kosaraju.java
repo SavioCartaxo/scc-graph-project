@@ -127,7 +127,10 @@ public class Kosaraju {
 		}
 	}
 
-	// Versão recursiva da dfs1, mais simples de entender
+	/**
+	 * DFS Recursiva do grafo original para preencher a pilha
+	 * e acordo com o tempo de término.
+	 */
 	private void recursiveDfs1(Node node, Deque<Node> pilha, boolean[] visitados) {
 		visitados[node.getIdNormalizado()] = true;
 		for (Node vizinho : node.getConnections()) {
@@ -138,7 +141,10 @@ public class Kosaraju {
 		pilha.addLast(node);
 	}
 
-	// Versão recursiva da dfs2
+	/**
+	 * DFS recursiva no grafo transposto para visitar todos
+     * os nós de uma mesma SCC.
+	 */
 	private void recursiveDfs2(Node node, ArrayList<ArrayList<Node>> grafoInvertido, boolean[] visitados, ArrayList<Integer> scc) {
 		visitados[node.getIdNormalizado()] = true;
 		scc.add(node.getValue());
