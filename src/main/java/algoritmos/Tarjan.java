@@ -20,10 +20,9 @@ public class Tarjan {
     private int stackTop;
 
     private int id;             // contador global de descoberta
+    private int[] originalValues; // índice para valor original do nó
     //private int countSCC;
     private ArrayList<Node>[] adj;          // cache das adjacências
-    private Map<Integer,Integer> nodeIndex; // valor do nó → índice 0..n-1
-    private int[] indexToValue;             // índice → valor original do nó
     private ArrayList<ArrayList<Integer>> out;
 
     
@@ -31,20 +30,12 @@ public class Tarjan {
     public ArrayList<ArrayList<Integer>> scc(ArrayList<Node> graph) {
         final int n = graph.size();
 
-         // Mapeia valores arbitrários dos nós para índices contíguos
-        nodeIndex = new HashMap<>(n * 2);
-        indexToValue = new int[n];
-        for (int i = 0; i < n; i++) {
-            int val = graph.get(i).getValue();
-            nodeIndex.put(val, i);
-            indexToValue[i] = val;
-        }
-
         ids = new int[n];
         low = new int[n];
         onStack = new boolean[n];
         stack = new int[n];
         stackTop = 0;
+        originalValues = new int[n];
         out = new ArrayList<>();
 
         Arrays.fill(ids, UNVISITED);
@@ -54,7 +45,9 @@ public class Tarjan {
 
         // Cache das adjacências para evitar chamadas repetidas a getConnections()
         ArrayList<Node>[] adjLocal = new ArrayList[n];
-        for (int i = 0; i < n; i++) adjLocal[i] = graph.get(i).getConnections();
+        for (int i = 0; i < n; i++) 
+            adjLocal[i] = graph.get(i).getConnections();
+            originalValues[i] = graph.get(i).getOriginalValue();
         adj = adjLocal;
 
         // Garante que todos os nós sejam visitados, mesmo em grafos desconexos
@@ -72,9 +65,7 @@ public class Tarjan {
         onStack[u] = true;
 
         for (Node vNode : adj[u]) {
-            Integer vBoxed = nodeIndex.get(vNode.getValue());
-            if (vBoxed == null) continue; // vizinho fora do grafo
-            int v = vBoxed;
+            int v = vNode.getValue();
 
             if (ids[v] == UNVISITED) {
                 // Tree-edge: desce na DFS e propaga o low de volta
@@ -93,7 +84,7 @@ public class Tarjan {
                 int node = stack[--stackTop];
                 onStack[node] = false;
                 low[node] = ids[u]; // todos do SCC apontam para a mesma raiz
-                component.add(indexToValue[node]);
+                component.add(originalValues[node]);
                 if (node == u) break;
             }
             out.add(component);
