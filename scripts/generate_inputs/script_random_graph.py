@@ -14,6 +14,13 @@ def generate_random_graph(N):
         v = random.randint(1, N)
         print(f"{u} {v}")
 
+"""
+Para executar via terminal:
+python scripts/generate_inputs/script_cycle_graph.py N K > arquivo_saida.txt
+
+Exemplo:
+python scripts/generate_inputs/script_cycle_graph.py 1000000 1000000 > input.txt
+"""
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Uso: python script.py <numero_de_nos>")

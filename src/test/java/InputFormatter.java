@@ -18,7 +18,7 @@ public class InputFormatter {
 
         for (int i = 0; i < n; i++) {
             int u = sc.nextInt();
-            Node newNode = new Node(u);
+            Node newNode = new Node(i, u);
             grafo.add(newNode);
             conexoes.put(u, newNode);
         }
