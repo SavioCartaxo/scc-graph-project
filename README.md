@@ -28,7 +28,32 @@ A geração das cargas de dados, estruturadas como diferentes *workloads*, foi r
 A geração dos gráficos foi realizada a partir dos dados experimentais armazenados em arquivos no formato `.csv`, os quais continham os resultados obtidos durante a execução dos testes. Para a visualização e análise desses dados, utilizou-se a biblioteca *Matplotlib* na linguagem **Python**, permitindo a construção de gráficos que representam o comportamento e o desempenho dos algoritmos avaliados.
 
 ## Estrutura de diretórios
+
 ---
+
+### Diretório src
+
+```
+src
+├───main
+│   └───java
+│       ├───algoritmos
+│       └───util
+└───test
+    └───java
+```
+
+O diretório `src` contém as implementações, em **Java**, dos algoritmos **Kosaraju** e **Tarjan**. Também está presente o diretório `test`, responsável pelas classes de teste do projeto.
+
+### Diretório scripts
+
+```
+scripts
+├───generate_inputs
+└───plot_graphs
+```
+
+O diretório `scripts` reúne os scripts desenvolvidos em **Python** utilizados no suporte aos experimentos realizados no projeto. Nele estão incluídos os scripts responsáveis pela **geração automática das entradas (workloads)** utilizadas nos testes e também os scripts encarregados da **geração de gráficos** a partir dos resultados obtidos, utilizando a biblioteca **Matplotlib**.
 
 # Introdução teórica
 
