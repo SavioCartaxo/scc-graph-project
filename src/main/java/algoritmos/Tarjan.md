@@ -3,7 +3,7 @@ Originalmente o algoritmo Tarjan e o algoritmo Kosaraju seriam implementados de 
 
 ## 1. Versões implementadas
 
-### 1.1 Versão com HashMap (original)
+### 1.1 [Versão com HashMap](experimentos/TarjanRecursivoHashMap.java) (original)
 
 A versão original utilizava `Map<Integer, Integer> nodeIndex` para mapear valores arbitrários dos nós para índices `0..n-1`, e `int[] indexToValue` para o caminho inverso. Dentro da DFS, cada visita a um vizinho realizava um lookup no HashMap:
 
@@ -15,7 +15,7 @@ int v = vBoxed;
 
 ---
 
-### 1.2 Versão com acesso direto (Node normalizado)
+### 1.2 [Versão com acesso direto](experimentos/TarjanRecursivoAcessoDireto.java) (Node normalizado)
 
 A versão otimizada adicionou `index` e `originalValue` ao `Node`. `getValue()` passou a retornar o índice normalizado `0..n-1` diretamente, eliminando o HashMap da DFS. O `originalValue` é recuperado via `getOriginalValue()` apenas na saída.
 
