@@ -76,7 +76,7 @@ public class Tarjan {
      *         corresponde à ordem de finalização da DFS (ordem topológica
      *         inversa do grafo condensado)
     */
-    public ArrayList<ArrayList<Integer>> scc(ArrayList<Node> grafo) {
+    public ArrayList<ArrayList<Integer>> findSCCs(ArrayList<Node> grafo) {
 
         final int n = grafo.size();
         
