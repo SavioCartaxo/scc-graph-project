@@ -42,7 +42,7 @@ public class TarjanRecursivoAcessoDireto {
         ArrayList<Node>[] adjLocal = new ArrayList[n];
         for (int i = 0; i < n; i++) {
             adjLocal[i] = graph.get(i).getConnections();
-            originalValues[i] = graph.get(i).getOriginalValue();
+            originalValues[i] = graph.get(i).getValue();
         }
         adj = adjLocal;
 
