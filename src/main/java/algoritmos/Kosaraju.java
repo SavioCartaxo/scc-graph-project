@@ -32,7 +32,7 @@ public class Kosaraju {
      * @param grafo lista de nós representando o grafo (lista de adjacência)
      * @return os Componentes Fortemente Conectados (SCCs)
      */
-	public ArrayList<ArrayList<Integer>> findSCCs(List<Node> grafo) {
+	public ArrayList<ArrayList<Integer>> findSCCs(ArrayList<Node> grafo) {
 
 		Deque<Node> pilha = new ArrayDeque<>();
 		boolean[] visitados = new boolean[grafo.size()];
