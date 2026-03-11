@@ -17,7 +17,7 @@ def generate_controlled_graph(N, M, K):
 
     groups = {i: [] for i in range(1, K + 1)}
     group_of_node = {}
-
+    
     for i in range(1, K + 1):
         groups[i].append(i)
         group_of_node[i] = i
@@ -36,24 +36,24 @@ def generate_controlled_graph(N, M, K):
                 u = nodes[j]
                 v = nodes[(j + 1) % sz]
                 edges.add((u, v))
+        else:
+            if g_id < K:
+                edges.add((nodes[0], random.choice(groups[g_id + 1])))
 
-    if len(edges) > M:
-        raise ValueError(f"M é muito pequeno para {N} nós e {K} SCCs.")
 
     attempts = 0
-    max_attempts = M * 10 
+    max_attempts = M * 100
 
     while len(edges) < M and attempts < max_attempts:
         attempts += 1
         u = random.randint(1, N)
         v = random.randint(1, N)
-        
+
         gu = group_of_node[u]
         gv = group_of_node[v]
 
-        if gu == gv or gu < gv:
-            if u != v and (u, v) not in edges:
-                edges.add((u, v))
+        if (gu == gv or gu < gv) and u != v and (u, v) not in edges:
+            edges.add((u, v))
 
     for u, v in edges:
         print(f"{u} {v}")
