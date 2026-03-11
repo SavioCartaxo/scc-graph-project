@@ -384,6 +384,8 @@ O script `benchmark.sh` usa `docker compose run --rm`, criando e removendo o con
 | Memória disponível | 8 GB |
 | Ambiente de execução | Container Docker |
 
+![baixa_pouco](README_IMAGES/tarjan_kosaraju_baixa_pouco.png)
+
 ## Resultados
 
 Isolamento de recursos, reprodutibilidade entre máquinas e condições idênticas de execução para todos os algoritmos — tornando os resultados do benchmark confiáveis e comparáveis.
