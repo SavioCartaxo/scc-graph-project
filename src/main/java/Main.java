@@ -63,9 +63,9 @@ public class Main {
 
             // Lê o grafo UMA vez e reutiliza nas épocas
             // Isso elimina o tempo de I/O da medição
-            ArrayList<Node> grafoBase = lerGrafo(arquivo);
-            int n       = grafoBase.size();
-            int arestas = contarArestas(grafoBase);
+            ArrayList<Node> grafo = lerGrafo(arquivo);
+            int n       = grafo.size();
+            int arestas = contarArestas(grafo);
             int kSccs   = extrairK(nomeArquivo);
 
             // -----------------------------------------------
@@ -73,7 +73,7 @@ public class Main {
             // -----------------------------------------------
             System.out.print("[WARMUP] ");
             for (int w = 0; w < WARMUP; w++) {
-                executar(algoritmo, clonarGrafo(grafoBase));
+                executar(algoritmo, grafo);
                 System.out.print(".");
             }
             System.out.println(" OK");
@@ -83,12 +83,8 @@ public class Main {
             // -----------------------------------------------
             double[] tempos = new double[EPOCAS];
             for (int e = 0; e < EPOCAS; e++) {
-                // Clona o grafo para garantir estado limpo a cada época
-                // sem precisar reler o arquivo (elimina I/O do loop)
-                ArrayList<Node> grafoClone = clonarGrafo(grafoBase);
-
                 long inicio = System.nanoTime();
-                executar(algoritmo, grafoClone);
+                executar(algoritmo, grafo);
                 tempos[e] = (System.nanoTime() - inicio) / 1_000_000.0;
             }
 
@@ -149,27 +145,6 @@ public class Main {
 
         sc.close();
         return grafo;
-    }
-
-    // Clona o grafo para garantir estado limpo sem reler o arquivo
-    private static ArrayList<Node> clonarGrafo(ArrayList<Node> original) {
-        ArrayList<Node> clone = new ArrayList<>();
-        HashMap<Integer, Node> mapa = new HashMap<>();
-
-        for (Node n : original) {
-            Node novoNode = new Node(n.getIdNormalizado(), n.getValue());
-            clone.add(novoNode);
-            mapa.put(n.getValue(), novoNode);
-        }
-
-        for (Node n : original) {
-            Node pai = mapa.get(n.getValue());
-            for (Node vizinho : n.getConnections()) {
-                pai.addConnections(mapa.get(vizinho.getValue()));
-            }
-        }
-
-        return clone;
     }
 
     // Conta o total de arestas no grafo para registrar no CSV
