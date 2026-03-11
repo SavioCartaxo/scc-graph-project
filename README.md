@@ -14,6 +14,13 @@
 
 - [Tarjan](#algoritmo-de-tarjan)
 
+- [Scripts](#scripts)
+
+- [Experimento](#experimento)
+
+- [Análise do Tarjan Recursivo](#análise-de-implementação-recursiva-do-algoritmo-de-tarjan)
+
+
 
 ### Versionamento de código
 
@@ -351,10 +358,13 @@ O experimento foi realizado em uma máquina com as seguintes especificações:
 
 
 ## Especificações da Máquina
-|||
-|-|-|
-|RAM|12GB|
-|CPU|RYZEN 7 5700U|
+
+| Recurso | Especificação |
+|--------|---------------|
+| Processador | Intel Core i5-13450HX (13ª geração) |
+| Núcleos disponíveis no experimento | 6 |
+| Memória disponível | 8 GB |
+| Ambiente de execução | Container Docker |
 
 ## Resultados
 
@@ -370,7 +380,9 @@ A Tabela apresenta o tempo de execução (em milissegundos) dos algoritmos de Ko
 
 ---
 
-# Análise de Implementação Recursiva do Algoritmo de Tarjan — Investigação de Performance
+# Análise de Implementação Recursiva do Algoritmo de Tarjan
+## Investigação de Performance
+
 Originalmente o algoritmo Tarjan e o algoritmo Kosaraju seriam implementados de forma recursiva, essa ideia foi descartada devido a alguns motivos, um deles é que a profundidade da pilha de recursão poderia afetar significativamente o desempenho e o uso de memória, especialmente em grafos que induzem cadeias longas de chamadas recursivas. Outro motivo foi um comportamento inesperado observado ao implementar o Tarjan recursivo em duas variações diferentes, discutido nas seções seguintes.
 
 ### 1. Versões implementadas
