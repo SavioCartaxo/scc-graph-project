@@ -352,7 +352,8 @@ Portanto, todo o grafo forma uma única Componente Fortemente Conectada (SCC), i
 
 ## Geração de Grafo Aleatório
 
-Grafos Aleatórios Controlados (Controlled Random Graphs),  grafos gerados da seguinte forma: a partir de 3 parâmetros, (N, M,  K), os vértices serão distribuídos aleatoriamente por K grupos de diferentes tamanhos e as arestas serão usadas de forma a garantir a formação de um SCC em cada grupo, bem como para formar um Grafo Acíclico Direcionado entre tais grupos, o que mantém a quantidade de SCC’s esperada. Isso permite testar grafos de diferentes densidades controlando a quantidade de componentes fortemente conectados.
+Para a realização dos experimentos, foi utilizado um script responsável por gerar automaticamente grafos direcionados com estrutura aleatória controlada. Nesse tipo de grafo, a geração é definida a partir de três parâmetros (N, M, K), onde os vértices são distribuídos aleatoriamente em K grupos de diferentes tamanhos. As arestas são utilizadas de forma a garantir a formação de uma SCC em cada grupo, bem como a formação de um Grafo Acíclico Direcionado entre os grupos, mantendo assim a quantidade de SCCs esperada. Isso permite testar grafos de diferentes densidades controlando o número de componentes fortemente conectadas.
+Para os experimentos, serão considerados valores de N = 10², 10³, 10⁴, 10⁵ e 10⁶. Os valores de M variam conforme a densidade do grafo: para grafos esparsos, M = 2N e M = 3N; para grafos densos, M = 10N e M = 20N. Os valores de K são definidos como frações de N, sendo K = N/10 para poucos SCCs grandes e K = N/2 para muitos SCCs pequenos.
 
 ---
 
@@ -362,6 +363,15 @@ A experimentação compara o desempenho do algoritmo de Kosaraju com o de Tarjan
 
 Os grafos foram gerados com entradas de tamanho 10², 10³, 10⁴, 10⁵ e 10⁶ vértices e arestas. Cada configuração foi executada 20 vezes por algoritmo, e o tempo médio de execução foi obtido utilizando System.currentTimeMillis() antes e após cada chamada, com o resultado expresso em milissegundos. A média de 20 execuções foi utilizada para reduzir o impacto de variações pontuais causadas por fatores externos, como garbage collection da JVM e variações de escalonamento do sistema operacional.
 O experimento foi realizado em uma máquina com as seguintes especificações:
+
+## Especificações da Máquina
+
+| Recurso | Especificação |
+|--------|---------------|
+| Processador | Intel Core i5-13450HX (13ª geração) |
+| Núcleos disponíveis no experimento | 6 |
+| Memória disponível | 8 GB |
+| Ambiente de execução | Container Docker |
 
 # Uso do Docker no Projeto de Benchmark SCC
 
@@ -379,16 +389,10 @@ Cada algoritmo é um serviço independente no `docker-compose.yml`, com limites 
 
 O script `benchmark.sh` usa `docker compose run --rm`, criando e removendo o container a cada execução sem acumular estado entre testes. O build é feito uma única vez, reutilizando cache do Docker quando o código não muda.
 
-## Especificações da Máquina
-
-| Recurso | Especificação |
-|--------|---------------|
-| Processador | Intel Core i5-13450HX (13ª geração) |
-| Núcleos disponíveis no experimento | 6 |
-| Memória disponível | 8 GB |
-| Ambiente de execução | Container Docker |
 
 ![baixa_pouco](README_IMAGES/tarjan_kosaraju_baixa_pouco.png)
+
+Para a realização dos experimentos, foi utilizado um script responsável por gerar automaticamente grafos direcionados com estrutura aleatória controlada, utilizando os parâmetros N, M e K. Nesse caso específico, foram considerados grafos esparsos (M = 2N) com poucos SCCs grandes (K = N/10).
 
 
 ---imagem do grafico baixo_medio---
