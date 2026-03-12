@@ -135,7 +135,7 @@ Vamos usar o grafo direcionado abaixo como exemplo para executar o algoritmo de 
 ## Execução do Algortimo
 ### Primeira Etapa
 
-Qual o nosso objetivo inicial? Primeiro, devemos criar uma pilha que representa a ordem de saída dos vértices através de uma busca em profundidade e guardar os vértices já visitados. A versão da DFS usada para a explicação do algoritmo será a recursiva, pois ela é mais intuitiva e simples de entender. A DFS faz chamadas recursivas para cada vizinho não visitado, e ao retornar de todas essas chamadas — ou seja, quando não há mais vizinhos a explorar — o vértice é adicionado à pilha.
+Qual o nosso objetivo inicial? Primeiro, devemos criar uma pilha que representa a ordem de saída dos vértices através de uma busca em profundidade e guardar os vértices já visitados. A versão da DFS usada para a explicação do algoritmo será a recursiva, pois ela é mais intuitiva e simples de entender. A DFS faz chamadas recursivas para cada vizinho não visitado, e ao retornar de todas essas chamadas, ou seja, quando não há mais vizinhos a explorar o vértice é adicionado à pilha.
 
 Podemos começar a DFS por qualquer vértice, mas, por convenção, iremos utilizar o 1. Realizando a busca, visitamos o 1 e vemos a quem ele está ligado. Vemos que ele está ligado ao 2, então visitamos o 2, e vemos que ele está ligado ao 3; visitamos o 3. Como o 3 não tem mais vizinhos não visitados, ele é adicionado à pilha. A recursão retorna para o 2, que também não tem mais vizinhos e é adicionado. Por fim, o 1 é adicionado.
 
@@ -160,17 +160,17 @@ visitados = {1, 2, 3, 4, 5, 6, 9}
 
 ### Segunda Etapa
 
-Agora, o próximo passo é inverter a direção de todas as arestas do grafo, a fim de encontrar o seu transposto. Para cada vértice u do grafo, percorremos seus vizinhos v e adicionamos u como vizinho de v no grafo transposto — ou seja, toda aresta u → v vira v → u. O processo é feito em O(V + E), visitando cada vértice e cada aresta exatamente uma vez.
+Agora, o próximo passo é inverter a direção de todas as arestas do grafo, a fim de encontrar o seu transposto. Para cada vértice u do grafo, percorremos seus vizinhos v e adicionamos u como vizinho de v no grafo transposto, ou seja, toda aresta u → v vira v → u. O processo é feito em O(V + E), visitando cada vértice e cada aresta exatamente uma vez.
 
-Agora, o próximo passo é inverter a direção de todas as arestas do grafo, a fim de encontrar o seu transposto. Para cada vértice u do grafo, percorremos seus vizinhos v e adicionamos u como vizinho de v no grafo transposto — ou seja, toda aresta u → v vira v → u. O processo é feito em O(V + E), visitando cada vértice e cada aresta exatamente uma vez.
+Agora, o próximo passo é inverter a direção de todas as arestas do grafo, a fim de encontrar o seu transposto. Para cada vértice u do grafo, percorremos seus vizinhos v e adicionamos u como vizinho de v no grafo transposto, ou seja, toda aresta u → v vira v → u. O processo é feito em O(V + E), visitando cada vértice e cada aresta exatamente uma vez.
 
 ![Grafo transposto](README_IMAGES/grafo_imagem2.png)
 
-Por que queremos o transposto do grafo? Sabemos que um SCC possui caminhos nos dois sentidos entre todos os seus vértices, ou seja, é, por definição, bidirecional. Ao invertermos as arestas, essa característica se preserva — o que era ciclo continua sendo ciclo. Porém, as arestas que conectavam SCCs distintos agora apontam na direção oposta, bloqueando a DFS de vazar de um SCC para outro. Isso nos permite, na segunda DFS, explorar exatamente um SCC por vez.
+Por que queremos o transposto do grafo? Sabemos que um SCC possui caminhos nos dois sentidos entre todos os seus vértices, ou seja, é, por definição, bidirecional. Ao invertermos as arestas, essa característica se preserva (o que era ciclo continua sendo ciclo). Porém, as arestas que conectavam SCCs distintos agora apontam na direção oposta, bloqueando a DFS de vazar de um SCC para outro. Isso nos permite, na segunda DFS, explorar exatamente um SCC por vez.
 
 ### Terceira Etapa
 
-Feito isso, realizamos a segunda busca em profundidade, agora no grafo transposto. Retiramos os vértices do topo da pilha um a um — lembrando que o topo representa o vértice que terminou por último na primeira DFS, ou seja, o de maior alcance. Para cada vértice retirado que ainda não foi visitado, criamos um novo SCC e iniciamos uma DFS no grafo transposto para encontrar todos os seus vértices. Todos os vértices alcançados nessa DFS pertencem ao mesmo SCC. Vértices já visitados são ignorados, pois já foram atribuídos a um componente. Ao esvaziarmos a pilha, temos todos os SCCs do grafo identificados.
+Feito isso, realizamos a segunda busca em profundidade, agora no grafo transposto. Retiramos os vértices do topo da pilha um a um, lembrando que o topo representa o vértice que terminou por último na primeira DFS, ou seja, o de maior alcance. Para cada vértice retirado que ainda não foi visitado, criamos um novo SCC e iniciamos uma DFS no grafo transposto para encontrar todos os seus vértices. Todos os vértices alcançados nessa DFS pertencem ao mesmo SCC. Vértices já visitados são ignorados, pois já foram atribuídos a um componente. Ao esvaziarmos a pilha, temos todos os SCCs do grafo identificados.
 
 Dando início à execução desta parte final, aplicamos a busca em profundidade no elemento do topo da pilha, que é o vértice 9. Como ele não foi visitado, iniciamos a DFS para montar seu SCC. Percebemos que ele não tem vizinhos no grafo transposto; portanto, o 9 sozinho já é um SCC.
 
@@ -359,7 +359,7 @@ Para os experimentos, serão considerados valores de N = 10², 10³, 10⁴, 10�
 
 # Experimento
 
-A experimentação compara o desempenho do algoritmo de Kosaraju com o de Tarjan para análise de tempo de execução e uso de memória. Ambos os algoritmos possuem complexidade de tempo O(V + E), onde V é o número de vértices e E o número de arestas do grafo, porém diferem significativamente em sua abordagem: o Tarjan realiza apenas uma busca em profundidade enquanto o Kosaraju realiza duas, além de construir explicitamente o grafo transposto em memória, resultando em complexidade de espaço O(V + E) contra O(V) do Tarjan. Essa diferença estrutural, embora invisível na notação assintótica, tem impacto direto no desempenho prático dos algoritmos, especialmente para entradas grandes.
+A experimentação compara o desempenho do algoritmo de Kosaraju com o de Tarjan para análise de tempo de execução e uso de memória. Ambos os algoritmos possuem complexidade de tempo O(V + E), onde V é o número de vértices e E o número de arestas do grafo, porém diferem significativamente em sua abordagem: o Tarjan realiza apenas uma busca em profundidade enquanto o Kosaraju realiza duas, além de construir explicitamente o grafo transposto em memória, resultando em complexidade de espaço O(V + E) contra O(V) do Tarjan. Essa diferença estrutural, embora invisível na notação assintótica, tem impacto direto no desempenho prático dos algoritmos, especialmente para entradas grandes. O objetivo é verificar empiricamente se essa diferença estrutural se reflete no desempenho prático dos algoritmos em termos de tempo de execução e uso de memória.
 
 Os grafos foram gerados com entradas de N = 10² até N = 10⁶ vértices, com o número de arestas variando conforme o tipo de grafo — fixo para os casos linear e cíclico, e proporcional a N para os grafos aleatórios controlados.
 O experimento foi realizado em uma máquina com as seguintes especificações:
@@ -392,7 +392,7 @@ Para a medição de memória, um container por execução é necessário. No ben
 Isolamento de recursos, reprodutibilidade entre máquinas e condições idênticas de execução - tornando os resultados confiáveis tanto para tempo quanto para memória.
 
 
-## Resultados de tempo para gráficos aleatórios controlados
+## Resultados de tempo para grafos aleatórios controlados
 
 Para os experimentos com grafos aleatórios controlados, foram consideradas combinações entre três níveis de densidade: baixa (M = 2N), média (M = 5N) e alta (M = 10N); e três categorias de quantidade de SCCs: poucos (K = 3), moderada (K = N/10) e muitos (K = N/3).
 
@@ -463,19 +463,16 @@ Ao analisar os gráficos, observa-se que o comportamento de ambos os algoritmos 
 
 ## Resultados de tempo do experimento de grafos cíclicos e lineares
 
-Isolamento de recursos, reprodutibilidade entre máquinas e condições idênticas de execução para todos os algoritmos — tornando os resultados do benchmark confiáveis e comparáveis.
+---IMAGEM DO GRAFICO DO CICLICO VS LINEAR---
 
-| Entrada | Kosaraju cíclico (ms) | Tarjan cíclico (ms) | Kosaraju linear (ms) | Tarjan linear (ms) |
-|:-------:|:---------------------:|:-------------------:|:--------------------:|:------------------:|
-| 10²     | 1                     | 1                   | 1                    | 1                  |
-| 10³     | 3                     | 2                   | 4                    | 3                  |
-| 10⁴     | 18                    | 10                  | 15                   | 11                 |
-| 10⁵     | 67                    | 44                  | 71                   | 45                 |
-| 10⁶     | 235                   | 129                 | 267                  | 148                |
+Os gráficos apresentam o tempo de execução dos algoritmos de Kosaraju e Tarjan para grafos cíclicos e lineares, com entradas variando de N = 100 até N = 10⁶ vértices.
 
-A Tabela apresenta o tempo de execução (em milissegundos) dos algoritmos de Kosaraju e Tarjan para encontrar Componentes Fortemente Conectados (SCC), considerando grafos com estruturas cíclicas e lineares. Os experimentos foram realizados com entradas variando de 10² a 10⁶ vértices.
+Em ambos os casos, o comportamento geral está dentro do esperado para a complexidade O(V + E), com o tempo de execução crescendo de forma consistente conforme o aumento da entrada, sem saltos abruptos. O Tarjan se mostrou consistentemente mais rápido que o Kosaraju ao longo de toda a faixa de entrada testada, com a diferença se tornando progressivamente mais expressiva conforme N cresce.
 
----
+Para entradas pequenas, a diferença entre os dois algoritmos é praticamente imperceptível, com ambos completando a execução em frações de milissegundo. À medida que a entrada cresce, a vantagem do Tarjan se acentua e para N = 10⁶, o Kosaraju leva aproximadamente o dobro do tempo do Tarjan em ambos os tipos de grafo, refletindo diretamente o custo das duas DFS e da construção explícita do grafo transposto.
+
+Vale observar que os dados apresentam alguma variação pontual, especialmente para entradas intermediárias, comportamento esperado em benchmarks de tempo, influenciado por fatores como o garbage collector da JVM e variações de escalonamento do sistema operacional. A tendência geral, no entanto, é clara e consistente com a análise teórica.
+
 
 ## Resultados do experimento de memória
 
@@ -486,9 +483,9 @@ A Tabela apresenta o tempo de execução (em milissegundos) dos algoritmos de Ko
 | 10⁵     | 20                   | 8                   | 28                   | 15                 |
 | 10⁶     | 211                  | 92                  | 294                  | 169                |
 
-Os resultados de uso de memória confirmam a diferença teórica entre os dois algoritmos. O Tarjan, por realizar apenas uma busca em profundidade e utilizar exclusivamente estruturas auxiliares de tamanho proporcional ao número de vértices (como os arrays de ids, low e onStack, além da pilha) possui complexidade de espaço O(V). O Kosaraju, na implementação utilizada, constrói explicitamente o grafo transposto em memória, o que adiciona uma estrutura de tamanho proporcional a V + E, resultando em complexidade de espaço O(V + E). É importante destacar que essa não é uma limitação inerente ao algoritmo de Kosaraju em si, pois existem variações que evitam a construção explícita do transposto, reduzindo o uso de memória para O(V), porém à custa de maior complexidade de implementação.
+Os resultados de uso de memória confirmam a diferença teórica entre os dois algoritmos. O Tarjan, por realizar apenas uma busca em profundidade e utilizar exclusivamente estruturas auxiliares de tamanho proporcional ao número de vértices, como os arrays de ids, low e onStack, além da pilha, possui complexidade de espaço O(V). O Kosaraju, na implementação utilizada, constrói explicitamente o grafo transposto em memória, o que adiciona uma estrutura de tamanho proporcional a V + E, resultando em complexidade de espaço O(V + E). É importante destacar que essa não é uma limitação inerente ao algoritmo de Kosaraju em si, pois existem variações que evitam a construção explícita do transposto, reduzindo o uso de memória para O(V), porém à custa de maior complexidade de implementação.
 
-Em ambos os tipos de grafo testados, o consumo de memória de ambos os algoritmos cresce conforme o esperado à medida que a entrada aumenta, com o Tarjan consistentemente utilizando menos memória que o Kosaraju. Essa diferença se torna mais expressiva para entradas grandes, refletindo diretamente o impacto da construção do grafo transposto no consumo de memória do Kosaraju.
+Em ambos os tipos de grafo testados, o consumo de memória de ambos os algoritmos cresce conforme o esperado à medida que a entrada aumenta, com o Tarjan consistentemente utilizando menos memória que o Kosaraju. Essa diferença se torna mais expressiva para entradas grandes, refletindo diretamente o impacto da construção do grafo transposto no consumo de memória do Kosaraju. Vale ressaltar que os grafos utilizados nos testes de memória são esparsos, com E ≈ V, o que representa o cenário mais favorável para o Kosaraju. Em grafos mais densos, onde E cresce em relação a V, o grafo transposto ocuparia proporcionalmente mais memória, acentuando ainda mais a diferença em relação ao Tarjan, que manteria seu consumo em O(V) independentemente da densidade do grafo.
 
 ## Análise de Implementação Recursiva do Algoritmo de Tarjan
 ### Investigação de Performance
@@ -525,7 +522,7 @@ int v = vNode.getValue(); // índice direto, sem mapa
 |---|---|---|---|
 | Tarjan com HashMap | recursiva | HashMap + arrays | ~90ms |
 | Tarjan com acesso direto | recursiva | arrays primitivos | ~350ms |
-A versão com acesso direto — estruturalmente mais simples e sem overhead de HashMap — se mostrou **~4x mais lenta** na DFS que a versão com HashMap. Esse resultado é contraintuitivo e levou a uma investigação detalhada.
+A versão com acesso direto, estruturalmente mais simples e sem overhead de HashMap, se mostrou **~4x mais lenta** na DFS que a versão com HashMap. Esse resultado é contraintuitivo e levou a uma investigação detalhada.
 
 ---
 
@@ -540,14 +537,14 @@ A versão com acesso direto — estruturalmente mais simples e sem overhead de H
 
 ---
 
-### Hipótese 2: JIT warmup — HashMap atrasava o início da DFS dando tempo ao JIT compilar
+### Hipótese 2: JIT warmup, HashMap atrasava o início da DFS dando tempo ao JIT compilar
 **Raciocínio:** o setup com HashMap levava ~12ms, durante os quais o JIT detectaria `dfs` como método quente e o compilaria para código nativo antes de ele começar. Sem HashMap, o setup termina em ~1ms e a DFS começa ainda interpretada.
 
 **Teste:** rodado com -XX:CompileThreshold=1 para reduzir drasticamente o número de chamadas necessárias antes da compilação JIT.
 
 **Resultado:** tempo aumentou por cerca de ~200ms.
 
-**Conclusão:** Hipótese descartada — o JIT forçado piorou ainda mais o resultado.
+**Conclusão:** Hipótese descartada. O JIT forçado piorou ainda mais o resultado.
 
 ---
 
@@ -556,9 +553,9 @@ A versão com acesso direto — estruturalmente mais simples e sem overhead de H
 ```
 1→2→3→4→...→100000→1
 ```
-Isso é o pior caso para recursão — a DFS desce 100.000 níveis em linha reta antes de voltar, criando cerca de 100.000 stack frames simultaneamente. Isso aumenta o consumo de memória da pilha e piora a localidade de cache, já que cada frame acessa múltiplas estruturas auxiliares.
+Isso é o pior caso para recursão, a DFS desce 100.000 níveis em linha reta antes de voltar, criando cerca de 100.000 stack frames simultaneamente. Isso aumenta o consumo de memória da pilha e piora a localidade de cache, já que cada frame acessa múltiplas estruturas auxiliares.
 
-**Relação com a diferença:** o Kosaraju recursivo era ~4x mais rápido mesmo fazendo duas DFS no mesmo grafo. Isso porque cada frame da DFS do Tarjan é mais pesado — acessa `ids`, `low`, `onStack`, `stack` e `originalValues` simultaneamente, potencialmente causando mais cache misses devido ao grande número de frames ativos e ao acesso simultâneo a múltiplas estruturas auxiliares.
+**Relação com a diferença:** o Kosaraju recursivo era ~4x mais rápido mesmo fazendo duas DFS no mesmo grafo. Isso porque cada frame da DFS do Tarjan é mais pesado, pois acessa `ids`, `low`, `onStack`, `stack` e `originalValues` simultaneamente, potencialmente causando mais cache misses devido ao grande número de frames ativos e ao acesso simultâneo a múltiplas estruturas auxiliares.
 
 **Conclusão:** Hipótese confirmada como causa do Tarjan ser lento em geral nesse grafo. Mas não explica a diferença *entre as duas versões do Tarjan*.
 
@@ -567,7 +564,7 @@ Isso é o pior caso para recursão — a DFS desce 100.000 níveis em linha reta
 ### Hipótese 4 (em aberto): Comportamento interno da JVM
 A diferença de ~90ms vs ~350ms na DFS (para N = 10⁵), com mesmo número de chamadas, mesmo grafo e mesma lógica, **não foi explicada conclusivamente**. O comportamento aponta para algo interno à JVM — possivelmente relacionado a como o JIT lida com a presença ou ausência do HashMap no contexto de execução, ou diferenças sutis no layout de memória dos objetos entre as duas versões.
 
-**Status:** ⚠️ não resolvida — requereria um profiler real (ex: JFR, async-profiler) para diagnóstico preciso.
+**Status:** Não resolvida. Requereria um profiler real (ex: JFR, async-profiler) para diagnóstico preciso.
 
 ---
 
@@ -597,21 +594,23 @@ Com a DFS iterativa, tanto o Tarjan quanto o Kosaraju se tornaram mais rápidos,
 
 ---
 
-### 5. Conclusão dos experimentos
+### 5. Conclusão da investigação
 
 - Para grafos com ciclos longos (pior caso de recursão), a DFS iterativa é obrigatória para o Tarjan ser competitivo.
-- A diferença inesperada entre as duas versões recursivas permanece sem explicação definitiva — o comportamento sugere algo interno ao JIT da JVM que não foi possível diagnosticar sem ferramentas de profiling adequadas.
+- A diferença inesperada entre as duas versões recursivas permanece sem explicação definitiva. O comportamento sugere algo interno ao JIT da JVM que não foi possível diagnosticar sem ferramentas de profiling adequadas.
 - Com ambos os algoritmos iterativos e estruturas equivalentes, o Tarjan é consistentemente mais rápido por fazer apenas uma DFS, sem construir grafo transposto.
 
 ## Conclusão
 
 Os resultados obtidos confirmam o que a análise teórica já sugeria: embora Kosaraju e Tarjan compartilhem a mesma complexidade de tempo assintótica O(V + E), o Tarjan se mostrou consistentemente mais rápido em todos os cenários testados, para ambos os tipos de grafo e em todas as entradas analisadas.
 
-A diferença de desempenho se torna cada vez mais evidente conforme o tamanho da entrada cresce. Para entradas pequenas, como 10², ambos os algoritmos completam a execução em 1ms, tornando a diferença imperceptível na prática. No entanto, à medida que o número de vértices aumenta, a vantagem do Tarjan se acentua de forma expressiva. Para o grafo cíclico com 10⁶ vértices, o Kosaraju levou 235ms contra 129ms do Tarjan, o Tarjan foi aproximadamente 45% mais rápido. Para o grafo linear com a mesma entrada, a diferença é ainda maior: 267ms para o Kosaraju contra 148ms do Tarjan, uma redução de aproximadamente 45% no tempo de execução.
+A diferença de desempenho se torna cada vez mais evidente conforme o tamanho da entrada cresce. Para entradas pequenas, ambos os algoritmos completam a execução em frações de milissegundo, tornando a diferença imperceptível na prática. À medida que a entrada cresce, a vantagem do Tarjan se acentua progressivamente. Para N = 10⁶, o Kosaraju levou aproximadamente o dobro do tempo do Tarjan tanto no grafo cíclico quanto no linear, padrão que se mostrou consistente ao longo de toda a faixa de entrada testada.
 
-Esse comportamento era esperado e pode ser explicado pela diferença estrutural entre os dois algoritmos. O Kosaraju realiza duas buscas em profundidade completas no grafo, além de construir explicitamente o grafo transposto em memória. Essa construção do transposto percorre todos os V vértices e E arestas uma vez adicional, e o grafo resultante ocupa O(V + E) de memória extra. O Tarjan, por sua vez, resolve o problema em uma única passagem pelo grafo, utilizando apenas estruturas auxiliares de tamanho O(V) — os arrays de ids, low e onStack, além da pilha. Na prática, isso significa que o Tarjan processa cada vértice e cada aresta exatamente uma vez, enquanto o Kosaraju os processa pelo menos três vezes: uma na primeira DFS, uma na construção do transposto e uma na segunda DFS.
+Nos experimentos com grafos aleatórios controlados, a diferença se mostrou ainda mais expressiva nos casos de maior densidade de arestas, chegando a aproximadamente 3x para M = 10N com N = 10⁶. Isso evidencia que o custo do Kosaraju cresce não apenas com o número de vértices, mas também com o número de arestas, já que o grafo transposto replica todas as E arestas do grafo original em memória. O Tarjan, por não construir o transposto e operar com estruturas auxiliares de tamanho O(V), mantém seu desempenho mais estável independentemente da densidade do grafo.
 
-Conclui-se portanto que, apesar da equivalência assintótica, o Tarjan é superior ao Kosaraju tanto em tempo quanto em memória na prática. A principal vantagem do Kosaraju reside na sua simplicidade conceitual e facilidade de implementação — a ideia de duas DFS com inversão do grafo é mais intuitiva do que o mecanismo de low-link values utilizado pelo Tarjan, o que justifica seu uso em contextos didáticos ou quando a clareza do código é prioritária em relação à performance.
+Vale destacar que os experimentos também revelaram um comportamento relevante relacionado à implementação recursiva: em grafos com ciclos longos, a profundidade da pilha de recursão impacta significativamente o desempenho, favorecendo a adoção da DFS iterativa para ambos os algoritmos. Com a DFS iterativa, o Tarjan passou a demonstrar sua vantagem de forma consistente, confirmando que a diferença de desempenho observada reflete genuinamente a diferença estrutural entre os algoritmos e não um artefato da implementação.
+
+Conclui-se portanto que, apesar da equivalência assintótica, o Tarjan é superior ao Kosaraju tanto em tempo quanto em memória na prática. A principal vantagem do Kosaraju reside na sua simplicidade conceitual e facilidade de implementação, pois a ideia de duas DFS com inversão do grafo é mais intuitiva do que o mecanismo de low-link values utilizado pelo Tarjan, o que justifica seu uso em contextos didáticos ou quando a clareza do código é prioritária em relação à performance.
 
 ---
 
