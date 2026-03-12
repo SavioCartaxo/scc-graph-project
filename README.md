@@ -353,7 +353,7 @@ Portanto, todo o grafo forma uma única Componente Fortemente Conectada (SCC), i
 ## Geração de Grafo Aleatório
 
 Para a realização dos experimentos, foi utilizado um script responsável por gerar automaticamente grafos direcionados com estrutura aleatória controlada. Nesse tipo de grafo, a geração é definida a partir de três parâmetros (N, M, K), onde os vértices são distribuídos aleatoriamente em K grupos de diferentes tamanhos. As arestas são utilizadas de forma a garantir a formação de uma SCC em cada grupo, bem como a formação de um Grafo Acíclico Direcionado entre os grupos, mantendo assim a quantidade de SCCs esperada. Isso permite testar grafos de diferentes densidades controlando o número de componentes fortemente conectadas.
-Para os experimentos, serão considerados valores de N = 10², 10³, 10⁴, 10⁵ e 10⁶. Os valores de M variam conforme a densidade do grafo: para grafos esparsos, M = 2N; ; para grafos moderadamente densos, M = 2N; para grafos densos, M = 10N. Os valores de K são definidos como frações de N, sendo K = N/10 para poucos SCCs grandes e K = N/3 para muitos SCCs pequenos.
+Para os experimentos, serão considerados valores de N = 10², 10³, 10⁴, 10⁵ e 10⁶. Os valores de M variam conforme a densidade do grafo: para grafos esparsos, M = 2N; para grafos moderadamente densos, M = 5N; para grafos densos, M = 10N. Os valores de K são definidos de forma a variar a quantidade de componentes, sendo K = 3 para poucos SCCs, K = N/10 para uma quantidade moderada e K = N/3 para muitos SCCs pequenos.
 
 ---
 
@@ -361,7 +361,7 @@ Para os experimentos, serão considerados valores de N = 10², 10³, 10⁴, 10�
 
 A experimentação compara o desempenho do algoritmo de Kosaraju com o de Tarjan para análise de tempo de execução e uso de memória. Ambos os algoritmos possuem complexidade de tempo O(V + E), onde V é o número de vértices e E o número de arestas do grafo, porém diferem significativamente em sua abordagem: o Tarjan realiza apenas uma busca em profundidade enquanto o Kosaraju realiza duas, além de construir explicitamente o grafo transposto em memória, resultando em complexidade de espaço O(V + E) contra O(V) do Tarjan. Essa diferença estrutural, embora invisível na notação assintótica, tem impacto direto no desempenho prático dos algoritmos, especialmente para entradas grandes.
 
-Os grafos foram gerados com entradas de tamanho 10², 10³, 10⁴, 10⁵ e 10⁶ vértices e arestas. Cada configuração foi executada 20 vezes por algoritmo, e o tempo médio de execução foi obtido utilizando System.currentTimeMillis() antes e após cada chamada, com o resultado expresso em milissegundos. A média de 20 execuções foi utilizada para reduzir o impacto de variações pontuais causadas por fatores externos, como garbage collection da JVM e variações de escalonamento do sistema operacional.
+Os grafos foram gerados com entradas de N = 10² até N = 10⁶ vértices, com o número de arestas variando conforme o tipo de grafo — fixo para os casos linear e cíclico, e proporcional a N para os grafos aleatórios controlados.
 O experimento foi realizado em uma máquina com as seguintes especificações:
 
 ## Especificações da Máquina
