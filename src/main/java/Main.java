@@ -1,10 +1,11 @@
 package main.java;
 
-import main.java.algoritmos.Node;
-import main.java.algoritmos.Tarjan;
-import main.java.algoritmos.Kosaraju;
-import main.java.algoritmos.TarjanRecursivoAcessoDireto;
-import main.java.algoritmos.TarjanRecursivoHashMap;
+import algoritmos.Node;
+import algoritmos.Tarjan;
+import algoritmos.Kosaraju;
+import algoritmos.TarjanRecursivoAcessoDireto;
+import algoritmos.TarjanRecursivoHashMap;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,9 +69,8 @@ public class Main {
             int arestas = contarArestas(grafo);
             int kSccs   = extrairK(nomeArquivo);
 
-            // -----------------------------------------------
+           
             // WARMUP — JIT aquece sem contabilizar tempo
-            // -----------------------------------------------
             System.out.print("[WARMUP] ");
             for (int w = 0; w < WARMUP; w++) {
                 executar(algoritmo, grafo);
@@ -78,9 +78,7 @@ public class Main {
             }
             System.out.println(" OK");
 
-            // -----------------------------------------------
             // MEDIÇÃO — só o algoritmo de SCC é cronometrado
-            // -----------------------------------------------
             double[] tempos = new double[EPOCAS];
             for (int e = 0; e < EPOCAS; e++) {
                 long inicio = System.nanoTime();
