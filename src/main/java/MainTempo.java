@@ -1,11 +1,7 @@
-package main.java;
-
 import algoritmos.Node;
 import algoritmos.Tarjan;
 import algoritmos.Kosaraju;
-import algoritmos.TarjanRecursivoAcessoDireto;
-import algoritmos.TarjanRecursivoHashMap;
-
+import algoritmos.TarjanRecursivo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +9,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 
-public class Main {
+public class MainTempo {
 
     // Épocas de aquecimento — rodam antes da medição para o JIT otimizar o bytecode
     // Não são contabilizadas no resultado
@@ -25,13 +21,13 @@ public class Main {
 
     // Algoritmos válidos — usados na validação e no switch de execução
     private static final java.util.Set<String> ALGORITMOS_VALIDOS = new java.util.HashSet<>(
-        java.util.Arrays.asList("tarjan", "kosaraju", "tarjan-recursivo", "tarjan-recursivo-hash")
+        java.util.Arrays.asList("tarjan", "kosaraju", "tarjan-recursivo")
     );
 
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
             System.out.println("Uso: java Main <algoritmo> <input1.txt> [input2.txt ...]");
-            System.out.println("Algoritmos: tarjan | kosaraju | tarjan-recursivo | tarjan-recursivo-hash");
+            System.out.println("Algoritmos: tarjan | kosaraju | tarjan-recursivo");
             return;
         }
 
@@ -39,7 +35,7 @@ public class Main {
 
         if (!ALGORITMOS_VALIDOS.contains(algoritmo)) {
             System.out.println("Algoritmo invalido: " + algoritmo);
-            System.out.println("Opcoes: tarjan | kosaraju | tarjan-recursivo | tarjan-recursivo-hash");
+            System.out.println("Opcoes: tarjan | kosaraju | tarjan-recursivo");
             return;
         }
 
@@ -108,8 +104,7 @@ public class Main {
         switch (algoritmo) {
             case "tarjan"                -> new Tarjan().findSCCs(grafo);
             case "kosaraju"              -> new Kosaraju().findSCCs(grafo);
-            case "tarjan-recursivo"      -> new TarjanRecursivoAcessoDireto().scc(grafo);
-            case "tarjan-recursivo-hash" -> new TarjanRecursivoHashMap().scc(grafo);
+            case "tarjan-recursivo"      -> new TarjanRecursivo().scc(grafo);
         }
     }
 
