@@ -466,7 +466,7 @@ Ao analisar os gráficos, observa-se que o comportamento de ambos os algoritmos 
 
 ---IMAGEM DO GRAFICO DO CICLICO VS LINEAR---
 
-Os gráficos apresentam o tempo de execução dos algoritmos de Kosaraju e Tarjan para grafos cíclicos e lineares, com entradas variando de N = 100 até N = 10⁶ vértices.
+Os gráficos apresentam o tempo de execução dos algoritmos de Kosaraju e Tarjan para grafos cíclicos e lineares, com entradas variando de N = 10² até N = 10⁶ vértices.
 
 Em ambos os casos, o comportamento geral está dentro do esperado para a complexidade O(V + E), com o tempo de execução crescendo de forma consistente conforme o aumento da entrada, sem saltos abruptos. O Tarjan se mostrou consistentemente mais rápido que o Kosaraju ao longo de toda a faixa de entrada testada, com a diferença se tornando progressivamente mais expressiva conforme N cresce.
 
@@ -487,119 +487,6 @@ Vale observar que os dados apresentam alguma variação pontual, especialmente p
 Os resultados de uso de memória confirmam a diferença teórica entre os dois algoritmos. O Tarjan, por realizar apenas uma busca em profundidade e utilizar exclusivamente estruturas auxiliares de tamanho proporcional ao número de vértices, como os arrays de ids, low e onStack, além da pilha, possui complexidade de espaço O(V). O Kosaraju, na implementação utilizada, constrói explicitamente o grafo transposto em memória, o que adiciona uma estrutura de tamanho proporcional a V + E, resultando em complexidade de espaço O(V + E). É importante destacar que essa não é uma limitação inerente ao algoritmo de Kosaraju em si, pois existem variações que evitam a construção explícita do transposto, reduzindo o uso de memória para O(V), porém à custa de maior complexidade de implementação.
 
 Em ambos os tipos de grafo testados, o consumo de memória de ambos os algoritmos cresce conforme o esperado à medida que a entrada aumenta, com o Tarjan consistentemente utilizando menos memória que o Kosaraju. Essa diferença se torna mais expressiva para entradas grandes, refletindo diretamente o impacto da construção do grafo transposto no consumo de memória do Kosaraju. Vale ressaltar que os grafos utilizados nos testes de memória são esparsos, com E ≈ V, o que representa o cenário mais favorável para o Kosaraju. Em grafos mais densos, onde E cresce em relação a V, o grafo transposto ocuparia proporcionalmente mais memória, acentuando ainda mais a diferença em relação ao Tarjan, que manteria seu consumo em O(V) independentemente da densidade do grafo.
-
-## Análise de Implementação Recursiva do Algoritmo de Tarjan
-### Investigação de Performance
-
-Originalmente o algoritmo Tarjan e o algoritmo Kosaraju seriam implementados de forma recursiva, essa ideia foi descartada devido a alguns motivos, um deles é que a profundidade da pilha de recursão poderia afetar significativamente o desempenho e o uso de memória, especialmente em grafos que induzem cadeias longas de chamadas recursivas. Outro motivo foi um comportamento inesperado observado ao implementar o Tarjan recursivo em duas variações diferentes, discutido nas seções seguintes.
-
-### 1. Versões implementadas
-
-#### 1.1 [Versão com HashMap](src/main/java/algoritmos/TarjanRecursivoHashMap.java) (original)
-
-A versão original utilizava `Map<Integer, Integer> nodeIndex` para mapear valores arbitrários dos nós para índices `0..n-1`, e `int[] indexToValue` para o caminho inverso. Dentro da DFS, cada visita a um vizinho realizava um lookup no HashMap:
-
-```java
-Integer vBoxed = nodeIndex.get(vNode.getValue());
-if (vBoxed == null) continue;
-int v = vBoxed;
-```
-
----
-
-#### 1.2 [Versão com acesso direto](src/main/java/algoritmos/TarjanRecursivoAcessoDireto.java) (Node normalizado)
-
-A versão otimizada adicionou `index` e `originalValue` ao `Node`. `getValue()` passou a retornar o índice normalizado `0..n-1` diretamente, eliminando o HashMap da DFS. O `originalValue` é recuperado via `getOriginalValue()` apenas na saída.
-
-```java
-int v = vNode.getValue(); // índice direto, sem mapa
-```
-
----
-
-### 2. Resultado inesperado
-
-| Versão | DFS | Estruturas | Tempo (N=10⁵) |
-|---|---|---|---|
-| Tarjan com HashMap | recursiva | HashMap + arrays | ~90ms |
-| Tarjan com acesso direto | recursiva | arrays primitivos | ~350ms |
-A versão com acesso direto, estruturalmente mais simples e sem overhead de HashMap, se mostrou **~4x mais lenta** na DFS que a versão com HashMap. Esse resultado é contraintuitivo e levou a uma investigação detalhada.
-
----
-
-### 3. Hipóteses investigadas
-
-### Hipótese 1: Grafo ou número de chamadas diferente entre as versões
-**Teste:** adicionado contador de chamadas à DFS e log de `n` e número de arestas.
-
-**Resultado:** ambas as versões realizaram exatamente **100.000 chamadas**, com mesmo `n` e mesmo número de arestas.
-
-**Conclusão:** Hipótese descartada.
-
----
-
-### Hipótese 2: JIT warmup, HashMap atrasava o início da DFS dando tempo ao JIT compilar
-**Raciocínio:** o setup com HashMap levava ~12ms, durante os quais o JIT detectaria `dfs` como método quente e o compilaria para código nativo antes de ele começar. Sem HashMap, o setup termina em ~1ms e a DFS começa ainda interpretada.
-
-**Teste:** rodado com -XX:CompileThreshold=1 para reduzir drasticamente o número de chamadas necessárias antes da compilação JIT.
-
-**Resultado:** tempo aumentou por cerca de ~200ms.
-
-**Conclusão:** Hipótese descartada. O JIT forçado piorou ainda mais o resultado.
-
----
-
-### Hipótese 3: Recursão profunda — tipo de grafo
-**Descoberta:** o script `script_cycle_graph.py` gerava um **ciclo único de N nós**:
-```
-1→2→3→4→...→100000→1
-```
-Isso é o pior caso para recursão, a DFS desce 100.000 níveis em linha reta antes de voltar, criando cerca de 100.000 stack frames simultaneamente. Isso aumenta o consumo de memória da pilha e piora a localidade de cache, já que cada frame acessa múltiplas estruturas auxiliares.
-
-**Relação com a diferença:** o Kosaraju recursivo era ~4x mais rápido mesmo fazendo duas DFS no mesmo grafo. Isso porque cada frame da DFS do Tarjan é mais pesado, pois acessa `ids`, `low`, `onStack`, `stack` e `originalValues` simultaneamente, potencialmente causando mais cache misses devido ao grande número de frames ativos e ao acesso simultâneo a múltiplas estruturas auxiliares.
-
-**Conclusão:** Hipótese confirmada como causa do Tarjan ser lento em geral nesse grafo. Mas não explica a diferença *entre as duas versões do Tarjan*.
-
----
-
-### Hipótese 4 (em aberto): Comportamento interno da JVM
-A diferença de ~90ms vs ~350ms na DFS (para N = 10⁵), com mesmo número de chamadas, mesmo grafo e mesma lógica, **não foi explicada conclusivamente**. O comportamento aponta para algo interno à JVM — possivelmente relacionado a como o JIT lida com a presença ou ausência do HashMap no contexto de execução, ou diferenças sutis no layout de memória dos objetos entre as duas versões.
-
-**Status:** Não resolvida. Requereria um profiler real (ex: JFR, async-profiler) para diagnóstico preciso.
-
----
-
-### 4. Solução adotada: DFS iterativa
-
-A DFS recursiva foi substituída por uma DFS iterativa usando `ArrayDeque` como pilha de frames explícita. Cada frame guarda `[nó atual, índice do próximo vizinho]`:
-
-```java
-Deque<int[]> callStack = new ArrayDeque<>();
-callStack.push(new int[]{start, 0});
-
-while (!callStack.isEmpty()) {
-    int[] frame = callStack.peek();
-    int u = frame[0];
-
-    if (frame[1] < adj[u].size()) {
-        int v = adj[u].get(frame[1]++).getValue();
-        // processa vizinho...
-    } else {
-        callStack.pop();
-        // propaga low e verifica raiz de SCC...
-    }
-}
-```
-
-Com a DFS iterativa, tanto o Tarjan quanto o Kosaraju se tornaram mais rápidos, mas agora sem um frame stack enorme o Tarjan passa a demonstrar sua vantagem em passar apenas uma vez pelo gráfico com a dfs, tornando-se assim mais rápido que o Kosaraju.
-
----
-
-### 5. Conclusão da investigação
-
-- Para grafos com ciclos longos (pior caso de recursão), a DFS iterativa é obrigatória para o Tarjan ser competitivo.
-- A diferença inesperada entre as duas versões recursivas permanece sem explicação definitiva. O comportamento sugere algo interno ao JIT da JVM que não foi possível diagnosticar sem ferramentas de profiling adequadas.
-- Com ambos os algoritmos iterativos e estruturas equivalentes, o Tarjan é consistentemente mais rápido por fazer apenas uma DFS, sem construir grafo transposto.
 
 ## Conclusão
 
