@@ -10,15 +10,13 @@
 
 - [Componentes Fortemente Conectados](#componentes-fortemente-conectados)
 
-- [Kosaraju](#algoritmo-de-kosaraju)
+- [Algoritmo de Kosaraju](#algoritmo-de-kosaraju)
 
-- [Tarjan](#algoritmo-de-tarjan)
+- [Algoritmo de Tarjan](#algoritmo-de-tarjan)
 
 - [Scripts](#scripts)
 
 - [Experimento](#experimento)
-
-- [Análise do Tarjan Recursivo](#análise-de-implementação-recursiva-do-algoritmo-de-tarjan)
 
 - [Ambiente isolado com Docker](#uso-do-docker-no-projeto-de-benchmark-scc)
 
@@ -76,25 +74,31 @@ O diretório `scripts` reúne os scripts desenvolvidos em **Python** utilizados 
 
 Considere a figura a seguir, a qual representa um mapa de vias de trânsito:
 
-![Roads Representation](README_IMAGES/roads.jpg)
-
-Figura 1.0
+<p align="center">
+  <img src="README_IMAGES/roads.jpg" alt="Roads Representation">
+  <br>
+  <em style="margin-left:40px;">Figura 1.0</em>
+</p>
 
 Essas vias podem ser representadas diagramaticamente por pontos ligados por linhas: os pontos P, Q, R e S são chamados de vértices, as linhas são chamadas de arestas e todo o diagrama é chamado de grafo. Note que a interseção entre as linhas PR e QS não é um vértice uma vez que não corresponde a um cruzamento, isto é, não é um ponto onde as ruas se encontram. O conceito de grau de um vértice qualquer é a quantidade de arestas que terminam nesse vértice, é o mesmo que dizer qual o número de ruas em um dado cruzamento na figura acima. Por exemplo, o grau do vértice P é 3.
 
  
-![Graph Diagram](README_IMAGES/graph.png)
-
-Figura 1.1
+<p align="center">
+  <img src="README_IMAGES/graph.png" alt="Graph Diagram">
+  <br>
+  <em>Figura 1.1</em>
+</p>
 
 O grafo na figura 1.1 pode, além de um mapa de estradas, representar diversas coisas: uma rede elétrica, moléculas ou redes neurais; essencialmente, portanto, um grafo é uma representação de um conjunto de pontos e das ligações entre eles. Na computação são extremamente úteis para lidar com problemas relacionados à rede de computadores, com conexões via Wi-Fi ou cabo entre roteadores, redes sociais e a conexão de usuários que seguem um ao outro, ou até a internet com páginas da web conectadas através de links. 
 
 Agora imagine que as vias possuem sentido único, ou seja, há apenas uma direção a se seguir de um cruzamento a outro; isso nada mais é que um novo grafo de um tipo especial chamado grafo direcionado: há apenas um sentido entre dois vértices.
 
 
-![Directed Graph Diagram](README_IMAGES/directed_graph.jpg)
-
-Figura 1.2
+<p align="center">
+  <img src="README_IMAGES/directed_graph.jpg" alt="Directed Graph Diagram">
+  <br>
+  <em>Figura 1.2</em>
+</p>
 
 ## Depth First Search
  
@@ -102,9 +106,11 @@ Se é preciso encontrar uma informação específica, há de se ter uma forma de
 
 No *depth first search*, procuramos o mais fundo possível no grafo. Esse algoritmo explora um caminho e segue por ele até que não seja mais possível avançar, e então retorna para o vértice de início e explora outro caminho ainda inexplorado, similar a explorar um labirinto sempre por um único caminho de corredores até o fim e, após isso, retornar ao ponto de início para fazer o mesmo por outro caminho, caso esse exista.
  
-![Directed Graph Diagram](README_IMAGES/directed_graph2.png)
-
-Figura 2.0
+<p align="center">
+  <img src="README_IMAGES/directed_graph2.png" alt="Directed Graph Diagram">
+  <br>
+  <em>Figura 1.3</em>
+</p>
 
 Na figura 2.0, que se trata de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algoritmo tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse.
 
@@ -116,7 +122,10 @@ Em um grafo dirigido G, diz-se que ele é fortemente conectado quando, para todo
 
 No entanto, um grafo dirigido pode não ser fortemente conectado como um todo. Nesse caso, a forte conectividade pode ocorrer em apenas partes do grafo. Dizemos que dois vértices u e v são fortemente conectados entre si quando existe um caminho de u até v e outro de v até u, mesmo que u = v. Assim, mesmo que G não seja fortemente conectado, ele pode ser decomposto em subconjuntos de vértices nos quais, internamente, todo par u e v é mutuamente alcançável. Cada um desses subconjuntos induz um subgrafo chamado **Componente Fortemente Conectado (CFC)** ou *Strongly Connected Components* (SCC) que será como iremos chamá-los. Essa ideia é melhor compreendida ao observar o exemplo:
 
-![Exemplo de SCC](README_IMAGES/img_example_SCC.png)
+<p align="center">
+  <img src="README_IMAGES/img_example_SCC.png" alt="Exemplo de SCC">
+  <br>
+</p>
 
 ---
 
@@ -130,7 +139,10 @@ A implementação utilizada constrói explicitamente o grafo transposto em memó
 
 Vamos usar o grafo direcionado abaixo como exemplo para executar o algoritmo de Kosaraju.
 
-![Grafo original](README_IMAGES/grafo_imagem1.png)
+<p align="center">
+  <img src="README_IMAGES/grafo_imagem1.png" alt="Grafo original">
+  <br>
+</p>
 
 ## Execução do Algoritmo
 ### Primeira Etapa
@@ -162,7 +174,10 @@ visitados = {1, 2, 3, 4, 5, 6, 9}
 
 Agora, o próximo passo é inverter a direção de todas as arestas do grafo, a fim de encontrar o seu transposto. Para cada vértice u do grafo, percorremos seus vizinhos v e adicionamos u como vizinho de v no grafo transposto, ou seja, toda aresta u → v vira v → u. O processo é feito em O(V + E), visitando cada vértice e cada aresta exatamente uma vez.
 
-![Grafo transposto](README_IMAGES/grafo_imagem2.png)
+<p align="center">
+  <img src="README_IMAGES/grafo_imagem2.png" alt="Grafo transposto">
+  <br>
+</p>
 
 Por que queremos o transposto do grafo? Sabemos que um SCC possui caminhos nos dois sentidos entre todos os seus vértices, ou seja, é, por definição, bidirecional. Ao invertermos as arestas, essa característica se preserva (o que era ciclo continua sendo ciclo). Porém, as arestas que conectavam SCCs distintos agora apontam na direção oposta, bloqueando a DFS de vazar de um SCC para outro. Isso nos permite, na segunda DFS, explorar exatamente um SCC por vez.
 
@@ -197,7 +212,10 @@ SCCs       = [[9], [4, 5, 6], [1, 2, 3]]
 Nossa pilha está vazia, portanto, encerrou a execução do algoritmo. Finalmente, descobrimos que o nosso grafo do exemplo possui três componentes fortemente conectados.
 
 
-![SCCs](README_IMAGES/grafo_imagem3.png)
+<p align="center">
+  <img src="README_IMAGES/grafo_imagem3.png" alt="SCCs">
+  <br>
+</p>
 
 
 Temos os SCCs {9}, {4, 5, 6} e {1, 2, 3}.
@@ -237,7 +255,11 @@ Podemos interpretar o algoritmo da seguinte forma: id indica quando entramos em 
 
 Vamos tomar como exemplo o seguinte grafo:
 
-![Grafo](README_IMAGES/GraphTarjan.png)
+<p align="center">
+  <img src="README_IMAGES/GraphTarjan.png" alt="Grafo">
+  <br>
+  <em>Figura 1.8</em>
+</p>
 
 Com as arestas: 3→1, 1→2, 2→1.
 
@@ -332,7 +354,10 @@ O node 3 forma um SCC sozinho pois, apesar de alcançar o node 1, não há camin
 
 Para a realização dos experimentos, foi utilizado um script responsável por gerar automaticamente grafos direcionados com *estrutura linear*. Nesse tipo de grafo, os vértices são organizados em sequência, onde cada vértice _i_ possui uma aresta direcionada para o vértice _i+1_, formando uma cadeia de nós conectados em uma única direção.
 
-![Directed Acyclic Graph](README_IMAGES/Directed_Acyclic_Graph.png)
+<p align="center">
+  <img src="README_IMAGES/Directed_Acyclic_Graph.png" alt="Directed Acyclic Graph">
+  <br>
+</p>
 
 Como não existem caminhos de retorno entre os vértices, não há ciclos no grafo. Dessa forma, nenhum par de vértices é mutuamente alcançável. Consequentemente, cada vértice forma sua própria Componente Fortemente Conectada (SCC), resultando em _N_ SCCs para um grafo com _N_ vértices.
 
@@ -342,7 +367,10 @@ Esse tipo de estrutura permite avaliar o comportamento dos algoritmos de detecç
 
 Também foi utilizado um script para gerar grafos direcionados com *estrutura cíclica*. Nesse caso, cada vértice _i_ possui uma aresta para o vértice _i+1_, e o último vértice possui uma aresta que retorna para o primeiro, formando um único ciclo.
 
-![Directed Cyclic Graph](README_IMAGES/Directed_Cyclic_Graph.png)
+<p align="center">
+  <img src="README_IMAGES/Directed_Cyclic_Graph.png" alt="Directed Cyclic Graph">
+  <br>
+</p>
 
 Nessa estrutura, existe um caminho entre qualquer par de vértices ao percorrer o ciclo, permitindo também o retorno ao vértice de origem. Assim, todos os vértices são mutuamente alcançáveis.
 
@@ -397,74 +425,76 @@ Isolamento de recursos, reprodutibilidade entre máquinas e condições idêntic
 
 Para os experimentos com grafos aleatórios controlados, foram consideradas combinações entre três níveis de densidade: baixa (M = 2N), média (M = 5N) e alta (M = 10N); e três categorias de quantidade de SCCs: muitos (K = N/3), moderada (K = N/10) e poucos (K = N/30).
 
-<p align="center">
-  <img src="README_IMAGES/tarjan_kosaraju_baixa_pouco.png">
-  <br>
-  <em>Grafo com baixa densidade (M = 2N) e poucos SCCs (K = N/30).</em>
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="README_IMAGES/tarjan_kosaraju_baixa_pouco.png"><br>
+    <em>Grafo com baixa densidade (M = 2N) e poucos SCCs (K = N/30).</em>
+  </td>
 
+  <td align="center">
+    <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_baixa_medios.png"><br>
+      <em>Grafo com baixa densidade (M = 2N) e quantidade moderada de SCCs (K = N/10).</em>
+  </td>
+  </tr>
 
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_baixa_medios.png">
-  <br>
-  <em>Grafo com baixa densidade (M = 2N) e quantidade moderada de SCCs (K = N/10).</em>
-</p>
+  <tr>
+    <td align="center">
+      <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_baixa_muitos.png"><br>
+    <em>Grafo com baixa densidade (M = 2N) e muitos SCCs (K = N/3).</em>
+  </td>
 
+  <td align="center">
+    <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_poucos.png"><br>
+      <em>Grafo com densidade média (M = 5N) e poucos SCCs (K = N/30).</em>
+  </td>
+  </tr>
 
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_baixa_muitos.png">
-  <br>
-  <em>Grafo com baixa densidade (M = 2N) e muitos SCCs (K = N/3).</em>
-</p>
+  <tr>
+    <td align="center">
+      <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_medios.png"><br>
+    <em>Grafo com densidade média (M = 5N) e quantidade moderada de SCCs (K = N/10).</em>
+  </td>
 
+  <td align="center">
+    <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_muitos.png"><br>
+      <em>Grafo com densidade média (M = 5N) e muitos SCCs (K = N/3).</em>
+  </td>
+  </tr>
 
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_poucos.png">
-  <br>
-  <em>Grafo com densidade média (M = 5N) e poucos SCCs (K = N/30).</em>
-</p>
+  <tr>
+    <td align="center">
+      <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_poucos.png"><br>
+    <em>Grafo com alta densidade (M = 10N) e poucos SCCs (K = N/30).</em>
+  </td>
 
+  <td align="center">
+    <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_medios.png"><br>
+      <em>Grafo com alta densidade (M = 10N) e quantidade moderada de SCCs (K = N/10).</em>
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_medios.png">
-  <br>
-  <em>Grafo com densidade média (M = 5N) e quantidade moderada de SCCs (K = N/10).</em>
-</p>
-
-
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_media_muitos.png">
-  <br>
-  <em>Grafo com densidade média (M = 5N) e muitos SCCs (K = N/3).</em>
-</p>
-
-
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_poucos.png">
-  <br>
-  <em>Grafo com alta densidade (M = 10N) e poucos SCCs (K = N/30).</em>
-</p>
-
-
-
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_medios.png">
-  <br>
-  <em>Grafo com alta densidade (M = 10N) e quantidade moderada de SCCs (K = N/10).</em>
-</p>
-
-<p align="center">
-  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_muitos.png">
-  <br>
-  <em>Grafo com alta densidade (M = 10N) e muitos SCCs (K = N/3).</em>
-</p>
+  <p align="center">
+    <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_alta_muitos.png">
+    <br>
+    <em>Grafo com alta densidade (M = 10N) e muitos SCCs (K = N/3).</em>
+  </p>
 
 Ao analisar os gráficos, observa-se que o comportamento de ambos os algoritmos está dentro do esperado para a complexidade O(V + E), com o tempo de execução crescendo de forma consistente conforme o aumento da entrada. O Tarjan se mostrou consistentemente mais rápido que o Kosaraju em todos os cenários testados, com a diferença se acentuando conforme a entrada cresce. Para entradas de N = 10⁶, o Tarjan chegou a ser de 2x a 3x mais rápido que o Kosaraju, com a diferença sendo mais expressiva nos casos de maior densidade de arestas.
 
 
 ## Resultados de tempo do experimento de grafos cíclicos e lineares
 
----IMAGEM DO GRAFICO DO CICLICO VS LINEAR---
+<p align="center">
+  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_teste_com_grafos_ciclicos.png">
+  <br>
+</p>
+
+<p align="center">
+  <img src="README_IMAGES/comparacao_tarjan_vs_kosaraju_teste_com_grafos_lineares.png">
+  <br>
+</p>
 
 Os gráficos apresentam o tempo de execução dos algoritmos de Kosaraju e Tarjan para grafos cíclicos e lineares, com entradas variando de N = 10² até N = 10⁶ vértices.
 
@@ -508,6 +538,7 @@ Conclui-se portanto que, apesar da equivalência assintótica, o Tarjan é super
 - [Graph-editor](https://csacademy.com/app/graph_editor/)
 - [Wikipedia](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)
 - [IME-USP](https://www.ime.usp.br/~pf/algoritmos_para_grafos/aulas/kosaraju.html)
+- [Introduction to algorithms, CORMEN, Thomas H.](https://www.amazon.com.br/Introduction-Algorithms-Eastern-Economy-Thomas/dp/8120340078)
 
 ---
 
