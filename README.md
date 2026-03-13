@@ -1,4 +1,4 @@
-# Componentes Fortemente Conexas (SCC) em Grafos – Tarjan & Kosaraju
+# Componentes Fortemente Conexos (SCC) em Grafos – Tarjan & Kosaraju
 
 ## Sumário
 
@@ -112,7 +112,7 @@ No *depth first search*, procuramos o mais fundo possível no grafo. Esse algori
   <em>Figura 1.3</em>
 </p>
 
-Na figura 2.0, que se trata de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algoritmo tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse.
+Na figura 1.3, que se trata de um grafo direcionado, tomando o vértice A como o inicial, o caminho seguido pelo algoritmo seria A → B → D → C → E → F → G → H. Note que, após não encontrar nenhum vértice inexplorado no ponto C, o algoritmo tem que retornar até encontrar um caminho ainda não explorado, repetindo o mesmo processo para esse.
 
 ---
 
@@ -239,15 +239,15 @@ Ao explorar uma aresta u → v, existem dois casos. Se v ainda não foi visitado
 
 ### Uso da Pilha
 
-O Tarjan utiliza uma pilha para manter um invariante importante: apenas vértices cujo componente ainda não foi finalizada podem influenciar cálculos de low-link. Quando um vértice é visitado, ele é colocado na pilha e permanece lá enquanto seu SCC ainda está sendo construída. Quando um componente é descoberta, todos os seus vértices são removidos da pilha. Assim, apenas vértices presentes na pilha podem atualizar valores low, impedindo que SCCs já concluídas interfiram nas próximas.
+O Tarjan utiliza uma pilha para manter um invariante importante: apenas vértices cujo componente ainda não foi finalizado podem influenciar cálculos de low-link. Quando um vértice é visitado, ele é colocado na pilha e permanece lá enquanto seu SCC ainda está sendo construído. Quando um componente é descoberto, todos os seus vértices são removidos da pilha. Assim, apenas vértices presentes na pilha podem atualizar valores low, impedindo que SCCs já concluídos interfiram nos próximos.
 
 ### Detecção de uma SCC
 
-Após explorar todos os vizinhos de um vértice u, verificamos a condição id[u] == low[u]. Se ela for verdadeira, significa que não existe caminho retornando para um vértice mais antigo na DFS; logo, u é o início de um componente fortemente conectada. Nesse momento, removemos vértices da pilha até remover u; todos os vértices removidos formam exatamente uma SCC. Uma SCC é definida como um conjunto de vértices onde qualquer vértice alcança qualquer outro e existe caminho de ida e volta entre todos eles, sendo que cada vértice do grafo pertence exatamente a uma única SCC.
+Após explorar todos os vizinhos de um vértice u, verificamos a condição id[u] == low[u]. Se ela for verdadeira, significa que não existe caminho retornando para um vértice mais antigo na DFS; logo, u é o início de um componente fortemente conectado. Nesse momento, removemos vértices da pilha até remover u; todos os vértices removidos formam exatamente uma SCC. Uma SCC é definida como um conjunto de vértices onde qualquer vértice alcança qualquer outro e existe caminho de ida e volta entre todos eles, sendo que cada vértice do grafo pertence exatamente a uma única SCC.
 
 ### Fluxo Geral do Algoritmo
 
-Inicializamos todos os vértices como não visitados e executamos DFS a partir de cada vértice ainda não explorado. Ao visitar um nó, atribuímos id e low, inserimos o vértice na pilha e exploramos seus vizinhos, atualizando os valores de low-link conforme os casos descritos. Sempre que id == low, removemos vértices da pilha formando uma nova componente fortemente conectada. Cada vértice e cada aresta são processados apenas uma vez, garantindo complexidade O(V + E) em tempo e O(V) em memória.
+Inicializamos todos os vértices como não visitados e executamos DFS a partir de cada vértice ainda não explorado. Ao visitar um nó, atribuímos id e low, inserimos o vértice na pilha e exploramos seus vizinhos, atualizando os valores de low-link conforme os casos descritos. Sempre que id == low, removemos vértices da pilha formando um novo componente fortemente conectado. Cada vértice e cada aresta são processados apenas uma vez, garantindo complexidade O(V + E) em tempo e O(V) em memória.
 
 ### Intuição Final
 
