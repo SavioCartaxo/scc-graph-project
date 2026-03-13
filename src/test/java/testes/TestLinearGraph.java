@@ -19,9 +19,15 @@ import util.GraphGeneratorLinear;
  * Os testes verificam se Tarjan e Kosaraju retornam n SCCs
  * para grafos de tamanhos variados.
  * 
- * Para executar no terminal rode na raiz do projeto:
- * javac -cp "lib\junit-platform-console-standalone-1.9.3.jar; src" -d out (Get-ChildItem -Recurse src -Filter *.java).FullName
- * java -jar lib\junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
+ * Instruções para executar os testes pelo terminal:
+ *
+ * PowerShell (Windows):
+ *    javac -cp "lib\junit-platform-console-standalone-1.9.3.jar;src" -d out (Get-ChildItem -Recurse src -Filter *.java).FullName
+ *    java -jar lib\junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
+ *
+ * Bash (Linux/Mac):
+ *    javac -cp "lib/junit-platform-console-standalone-1.9.3.jar:src" -d out $(find src -name "*.java")
+ *    java -jar lib/junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
  *  
  */
 public class TestLinearGraph {

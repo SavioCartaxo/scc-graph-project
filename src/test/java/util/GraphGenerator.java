@@ -30,7 +30,8 @@ public class GraphGenerator {
     public static ArrayList<Node> generateGraph(int n, int m, int k) throws Exception {
 
         ProcessBuilder pb = new ProcessBuilder(
-                "python",
+                //"python", se estiver no powershell troque python3 por python
+                "python3",
                 "scripts/generate_inputs/script_controlled_graph.py",
                 String.valueOf(n),
                 String.valueOf(m),

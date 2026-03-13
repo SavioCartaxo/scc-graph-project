@@ -28,7 +28,8 @@ public class GraphGeneratorCiclico {
     public static ArrayList<Node> generateGraphCiclico(int n) throws Exception {
 
         ProcessBuilder pb = new ProcessBuilder(
-                "python",
+                //"python", se estiver no powershell troque python3 por python
+                "python3",
                 "scripts/generate_inputs/script_cycle_graph.py",
                 String.valueOf(n)
         );

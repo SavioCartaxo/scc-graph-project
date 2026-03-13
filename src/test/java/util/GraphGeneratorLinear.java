@@ -27,7 +27,8 @@ public class GraphGeneratorLinear {
     public static ArrayList<Node> generateGraph(int n) throws Exception {
 
         ProcessBuilder pb = new ProcessBuilder(
-                "python",
+                //"python", se estiver no powershell troque python3 por python
+                "python3",
                 "scripts/generate_inputs/script_linear_graph.py",
                 String.valueOf(n)
         );

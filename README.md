@@ -428,11 +428,23 @@ A classe [`TestControlledGraph`](src/test/java/testes/TestControlledGraph.java) 
 
 A classe [`TestCyclicGraph`](src/test/java/testes/TestCyclicGraph.java) verifica se ambos os algoritmos retornam exatamente 1 SCC para grafos cíclicos, já que todos os vértices são mutuamente alcançáveis pelo ciclo. 
 
-A classe [`TestLinearGraph`](src/test/java/testes/TestLinearGraph.java) confirma que, em grafos lineares sem ciclos, cada vértice forma sua própria SCC, resultando em N componentes. Para executar os testes no terminal:
+A classe [`TestLinearGraph`](src/test/java/testes/TestLinearGraph.java) confirma que, em grafos lineares sem ciclos, cada vértice forma sua própria SCC, resultando em N componentes. 
+
+### Instruções para executar os testes pelo terminal
+
+#### Bash (Linux/Mac)
+```bash
+javac -cp "lib/junit-platform-console-standalone-1.9.3.jar:src" -d out $(find src -name "*.java")
+java -jar lib/junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
 ```
+
+#### PowerShell (Windows)
+```powershell
 javac -cp "lib\junit-platform-console-standalone-1.9.3.jar;src" -d out (Get-ChildItem -Recurse src -Filter *.java).FullName
 java -jar lib\junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
 ```
+<small>Observação: Caso use powershell substitua `python3` por `python` nos geradores de grafos em [src/test/java/util](src/test/java/util/)</small>
+
 <br>
 
 ---

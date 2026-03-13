@@ -20,10 +20,15 @@ import util.GraphGenerator;
  * {@link GraphGenerator}. Cada teste verifica se o número
  * de SCCs encontrado pelo algoritmo corresponde ao esperado.
  *
- * Para executar no terminal use:
- * javac -cp "lib\junit-platform-console-standalone-1.9.3.jar; src" -d out (Get-ChildItem -Recurse src -Filter *.java).FullName
- * java -jar lib\junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
- *  
+ * Instruções para executar os testes pelo terminal:
+ *
+ * PowerShell (Windows):
+ *    javac -cp "lib\junit-platform-console-standalone-1.9.3.jar;src" -d out (Get-ChildItem -Recurse src -Filter *.java).FullName
+ *    java -jar lib\junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
+ *
+ * Bash (Linux/Mac):
+ *    javac -cp "lib/junit-platform-console-standalone-1.9.3.jar:src" -d out $(find src -name "*.java")
+ *    java -jar lib/junit-platform-console-standalone-1.9.3.jar -cp out --scan-classpath
  */
 public class TestControlledGraph {
 
