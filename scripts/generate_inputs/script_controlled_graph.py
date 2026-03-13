@@ -60,10 +60,10 @@ def generate_controlled_graph(N, M, K):
 
 """
 Para executar via terminal:
-python script_controlled_graph.py N M K > arquivo_saida.txt
+python scripts/generate_inputs/script_controlled_graph.py N M K > arquivo_saida.txt
 
 Exemplo:
-python script_controlled_graph.py 10000 25000 50 > input.txt
+python scripts/generate_inputs/script_controlled_graph.py 10000 25000 50 > input.txt
 """
 if __name__ == "__main__":
     N = int(sys.argv[1])

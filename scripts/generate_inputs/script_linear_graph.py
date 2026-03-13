@@ -23,10 +23,10 @@ def generate_linear_graph(N):
 
 """
 Para executar via terminal:
-python scripts//generate_inputs/script_linear_graph.py N K > arquivo_saida.txt
+python scripts/generate_inputs/script_linear_graph.py N > arquivo_saida.txt
 
 Exemplo:
-python scripts/generate_inputs/script_linear_graph.py 1000000 1000000 > input.txt
+python scripts/generate_inputs/script_linear_graph.py 1000000 > input.txt
 """
 if __name__ == "__main__":
     N = int(sys.argv[1])

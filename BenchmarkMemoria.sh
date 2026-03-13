@@ -3,8 +3,10 @@
 # =============================================================
 # BENCHMARK DE MEMÓRIA — Tarjan vs Kosaraju
 # =============================================================
+#
 # Testa N=1000 e N=1000000 nos grafos linear e cycle
 # Um container por execução garante heap limpo em cada medição
+#
 # =============================================================
 
 set -e
@@ -13,7 +15,7 @@ set -e
 # CONFIGURAÇÕES FIXAS
 # -------------------------------------------------------------
 
-NS=(1000 1000000)
+NS=(1000 10000 100000 1000000)
 ALGORITMOS=("tarjan" "kosaraju")
 TIPOS=("linear" "cycle")
 

@@ -1,8 +1,9 @@
 import os
+import sys
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import sys
 
 
 def benchmark(caminho_csv: str, 
